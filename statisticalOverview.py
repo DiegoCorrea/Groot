@@ -5,23 +5,27 @@ import multiprocessing
 sys.path.append('..')
 
 
+def listNormalize(listToNormalize):
+    divisor = max(listToNormalize)
+    pool = multiprocessing.Pool()
+    func = partial(normalizeCount, divisor)
+    playListNormalized = pool.map(func, listToNormalize)
+    pool.close()
+    pool.join()
+    return playListNormalized
+
+
 def normalizeCount(down, top):
     return "{0:.2f}".format(top/down)
 
 
 
 def songPlayCount(preferenceSet):
-    playList = []
+    playList = {}
     for song in preferenceSet.song_id.unique():
         lines = preferenceSet.loc[preferenceSet['song_id'] == song]
-        playList.append(reduce(lambda x, y: x + y, lines['play_count'].tolist()))
-    divisor = max(playList)
-    pool = multiprocessing.Pool()
-    func = partial(normalizeCount, divisor)
-    playListNormalized = pool.map(func, playList)
-    pool.close()
-    pool.join()
-    return playListNormalized
+        playList[song] = reduce(lambda x, y: x + y, lines['play_count'].tolist())
+    return playList
 
 
 def saveSongPlayCount(playList):
@@ -36,14 +40,7 @@ def saveSongPlayCount(playList):
 
 
 def songPreferenceCount(preferenceSet):
-    countedPreferenceList = Counter(preferenceSet["song_id"].tolist()).values()
-    divisor = max(countedPreferenceList)
-    pool = multiprocessing.Pool()
-    func = partial(normalizeCount, divisor)
-    listNormalized = pool.map(func, countedPreferenceList)
-    pool.close()
-    pool.join()
-    return listNormalized
+    return Counter(preferenceSet["song_id"].tolist())
 
 
 def saveSongPreferenceCount(preferenceList):
@@ -56,15 +53,9 @@ def saveSongPreferenceCount(preferenceList):
         toSaveFile.write(str(song) + '\n')
     toSaveFile.close()
 
+
 def userPreferenceCount(preferenceSet):
-    countedPreferenceList = Counter(preferenceSet["user_id"].tolist()).values()
-    divisor = max(countedPreferenceList)
-    pool = multiprocessing.Pool()
-    func = partial(normalizeCount, divisor)
-    listNormalized = pool.map(func, countedPreferenceList)
-    pool.close()
-    pool.join()
-    return listNormalized
+    return Counter(preferenceSet["user_id"].tolist())
 
 
 def userSongPreferenceCount(preferenceList):
@@ -84,7 +75,17 @@ def painelSongs(preferenceSet):
 
 
 def statisticalOverview(songSet, preferenceSet):
-    saveSongPreferenceCount(songPreferenceCount(preferenceSet))
-    userSongPreferenceCount(userPreferenceCount(preferenceSet))
-    saveSongPlayCount(songPlayCount(preferenceSet))
+    #
+    song_preference_set_counted = songPreferenceCount(preferenceSet)
+    song_preference_set_normalized = listNormalize(song_preference_set_counted.values())
+    saveSongPreferenceCount(song_preference_set_normalized)
+    #
+    user_preference_set_counted = userPreferenceCount(preferenceSet)
+    user_preference_set_normalized = listNormalize(user_preference_set_counted.values())
+    userSongPreferenceCount(user_preference_set_normalized)
+    #
+    song_play_set_counted = songPlayCount(preferenceSet)
+    song_play_set_normalized = listNormalize(song_play_set_counted.values())
+    saveSongPlayCount(song_play_set_normalized)
+    #
     painelSongs(preferenceSet)
