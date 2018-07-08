@@ -1,8 +1,11 @@
+# -*- coding: utf-8 -*-
+import os
 import numpy as np
 import pandas as pd
 from sklearn.tree import DecisionTreeClassifier, export_graphviz
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report, confusion_matrix, mean_absolute_error, mean_squared_error
+import graphviz
 
 
 def data_information(pd_dict_set):
@@ -74,6 +77,15 @@ def tree_execute(set_to_process):
     y_pred = classifier.predict(x_test)
     tree_evaluate(y_test, y_pred)
     tree_information(classifier)
+    dot_data = export_graphviz(classifier, out_file=None,
+                               feature_names=features,
+                                            class_names='relevance_global_play',
+                                            filled=True, rounded=True,
+                                            special_characters=True)
+    graph = graphviz.Source(dot_data)
+    graph.view()
+    os.system("dot -Tpng Source.gv -o decision-tree.png")
+
 
 
 def encode_target(df, target_column):
