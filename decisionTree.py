@@ -78,45 +78,48 @@ def encode_target(df, target_column):
 
 
 def preprocessing_data(data_set):
+    print('=' * 50)
+    print('=' * 7 + 'Pre-Processamento: Enumerando dados' + '=' * 8)
+    print('=' * 50)
     clean_data_set, album_targets = encode_target(data_set, "album")
-    print("* df2.head()", clean_data_set[["album"]].head(),
+    print("* head()", clean_data_set[["album"]].head(),
           sep="\n", end="\n\n")
-    print("* df2.tail()", clean_data_set[["album"]].tail(),
+    print("* tail()", clean_data_set[["album"]].tail(),
           sep="\n", end="\n\n")
-    print("* targets", album_targets, sep="\n", end="\n\n")
+    print("* Album", album_targets, sep="\n", end="\n\n")
     #
     clean_data_set, artist_targets = encode_target(clean_data_set, "artist")
-    print("* df2.head()", clean_data_set[["artist"]].head(),
+    print("* head()", clean_data_set[["artist"]].head(),
           sep="\n", end="\n\n")
-    print("* df2.tail()", clean_data_set[["artist"]].tail(),
+    print("* tail()", clean_data_set[["artist"]].tail(),
           sep="\n", end="\n\n")
-    print("* targets", artist_targets, sep="\n", end="\n\n")
+    print("* Artists", artist_targets, sep="\n", end="\n\n")
     #
     clean_data_set, title_targets = encode_target(clean_data_set, "title")
-    print("* df2.head()", clean_data_set[["title"]].head(),
+    print("* head()", clean_data_set[["title"]].head(),
           sep="\n", end="\n\n")
-    print("* df2.tail()", clean_data_set[["title"]].tail(),
+    print("* tail()", clean_data_set[["title"]].tail(),
           sep="\n", end="\n\n")
-    print("* targets", title_targets, sep="\n", end="\n\n")
+    print("* Title", title_targets, sep="\n", end="\n\n")
     #
     clean_data_set, relevance_global_targets = encode_target(clean_data_set, "relevance_global_play")
-    print("* df2.head()", clean_data_set[["relevance_global_play"]].head(),
+    print("* head()", clean_data_set[["relevance_global_play"]].head(),
           sep="\n", end="\n\n")
-    print("* df2.tail()", clean_data_set[["relevance_global_play"]].tail(),
+    print("* tail()", clean_data_set[["relevance_global_play"]].tail(),
           sep="\n", end="\n\n")
-    print("* targets", relevance_global_targets, sep="\n", end="\n\n")
+    print("* Global Relevance", relevance_global_targets, sep="\n", end="\n\n")
     #
     clean_data_set, user_targets = encode_target(clean_data_set, "user_id")
-    print("* df2.head()", clean_data_set[["user_id"]].head(),
+    print("* head()", clean_data_set[["user_id"]].head(),
           sep="\n", end="\n\n")
-    print("* df2.tail()", clean_data_set[["user_id"]].tail(),
+    print("* tail()", clean_data_set[["user_id"]].tail(),
           sep="\n", end="\n\n")
-    print("* targets", user_targets, sep="\n", end="\n\n")
+    print("* User Id", user_targets, sep="\n", end="\n\n")
     #
     clean_data_set, song_targets = encode_target(clean_data_set, "song_id")
-    print("* df2.head()", clean_data_set[["song_id"]].head(),
+    print("* head()", clean_data_set[["song_id"]].head(),
           sep="\n", end="\n\n")
-    print("* df2.tail()", clean_data_set[["song_id"]].tail(),
+    print("* tail()", clean_data_set[["song_id"]].tail(),
           sep="\n", end="\n\n")
-    print("* targets", song_targets, sep="\n", end="\n\n")
+    print("* Song Id", song_targets, sep="\n", end="\n\n")
     return clean_data_set
