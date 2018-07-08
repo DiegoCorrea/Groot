@@ -6,9 +6,16 @@ from sklearn.metrics import classification_report, confusion_matrix, mean_absolu
 
 
 def data_information(pd_dict_set):
-    print('*'*60)
+    print('=' * 50)
+    print('=' * 10 + 'Estrutura e dados do Data Frame' + '=' * 9)
+    print('=' * 50)
+    print('+ Dataframe Shape')
     print(pd_dict_set.shape)
+    print('-' * 50)
+    print('+ Dataframe Description')
     print(pd_dict_set.describe())
+    print('-' * 50)
+    print('+ Dataframe Information')
     print(pd_dict_set.info())
 
 
