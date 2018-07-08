@@ -8,5 +8,6 @@ setup(
     license='MIT',
     author='Diego Corrêa',
     author_email='diegocorrea.cc@gmail.com',
-    description='', install_requires=['pandas']
+    description='',
+    install_requires=['pandas', 'sklearn', 'numpy']
 )
