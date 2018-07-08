@@ -11,8 +11,7 @@ sys.path.append('..')
 
 def list_normalize(list_to_normalize):
     pool = multiprocessing.Pool()
-    func = partial(normalizeCount, max(list_to_normalize))
-    playListNormalized = pool.map(func, list_to_normalize)
+    playListNormalized = pool.map(partial(normalizeCount, max(list_to_normalize)), list_to_normalize)
     pool.close()
     pool.join()
     return playListNormalized
@@ -22,8 +21,7 @@ def dictNormalize(dict_to_normalize):
     values = dict_to_normalize.values()
     divisor = max(values)
     pool = multiprocessing.Pool()
-    func = partial(normalizeCount, divisor)
-    playListNormalized = pool.map(func, values)
+    playListNormalized = pool.map(partial(normalizeCount, divisor), values)
     pool.close()
     pool.join()
     dict_to_return = {}

@@ -88,7 +88,12 @@ def tree_execute(set_to_process):
 
 
 def tree_new_data(classifier, new_data):
-    y_pred = classifier.predict(new_data)
+    print('=' * 50)
+    print('=' * 18 + 'Novos itens' + '=' * 18)
+    print('=' * 50)
+    new_data_pred = classifier.predict(new_data)
+    print(new_data_pred)
+    tree_information(classifier)
 
 
 
