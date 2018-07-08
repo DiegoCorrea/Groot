@@ -1,7 +1,6 @@
 import numpy as np
 import pandas as pd
 from sklearn.tree import DecisionTreeClassifier, export_graphviz
-from sklearn.datasets import load_iris
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report, confusion_matrix, mean_absolute_error, mean_squared_error
 
@@ -30,19 +29,44 @@ def make_set_to_process(song_set, dict_set):
     return set_to_process
 
 
+def tree_evaluate(y_test, y_pred):
+    print('='*50)
+    print('='*21 + 'Métricas' + '='*21)
+    print('='*50)
+    print('+ Confusion Matrix: ')
+    print(confusion_matrix(y_test, y_pred))
+    print('')
+    print('+ Métricas')
+    print(classification_report(y_test, y_pred))
+    print('')
+    print('+ Mean Absolute Error:', mean_absolute_error(y_test, y_pred))
+    print('+ Mean Squared Error:', mean_squared_error(y_test, y_pred))
+    print('+ Root Mean Squared Error:', np.sqrt(mean_squared_error(y_test, y_pred)))
+
+
+def tree_information(classifier):
+    feature_import = classifier.feature_importances_
+    print('='*50)
+    print('='*18 + 'Peso da Coluna' + '='*18)
+    print('='*50)
+    print('+ Title:   ' + str(feature_import[0]) + '\n')
+    print('+ Artist:  ' + str(feature_import[1]) + '\n')
+    print('+ Album:   ' + str(feature_import[2]) + '\n')
+    print('+ User_id: ' + str(feature_import[3]) + '\n')
+    print('+ Song_id: ' + str(feature_import[4]) + '\n')
+
+
+
 def tree_execute(set_to_process):
     features = list(['title', 'artist', 'album', 'user_id', 'song_id'])
     y = set_to_process["relevance_global_play"]
-    X = set_to_process[features]
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.20)
+    x = set_to_process[features]
+    x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.20)
     classifier = DecisionTreeClassifier()
-    classifier.fit(X_train, y_train)
-    y_pred = classifier.predict(X_test)
-    print(confusion_matrix(y_test, y_pred))
-    print(classification_report(y_test, y_pred))
-    print('Mean Absolute Error:', mean_absolute_error(y_test, y_pred))
-    print('Mean Squared Error:', mean_squared_error(y_test, y_pred))
-    print('Root Mean Squared Error:', np.sqrt(mean_squared_error(y_test, y_pred)))
+    classifier.fit(x_train, y_train)
+    y_pred = classifier.predict(x_test)
+    tree_evaluate(y_test, y_pred)
+    tree_information(classifier)
 
 
 def encode_target(df, target_column):
@@ -50,7 +74,7 @@ def encode_target(df, target_column):
     targets = df_mod[target_column].unique()
     map_to_int = {name: n for n, name in enumerate(targets)}
     df_mod[target_column] = df[target_column].replace(map_to_int)
-    return (df_mod, targets)
+    return df_mod, targets
 
 
 def preprocessing_data(data_set):
