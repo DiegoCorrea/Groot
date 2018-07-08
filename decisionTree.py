@@ -87,6 +87,10 @@ def tree_execute(set_to_process):
     os.system("dot -Tpng Source.gv -o decision-tree.png")
 
 
+def tree_new_data(classifier, new_data):
+    y_pred = classifier.predict(new_data)
+
+
 
 def encode_target(df, target_column):
     df_mod = df.copy()

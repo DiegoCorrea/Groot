@@ -9,5 +9,5 @@ setup(
     author='Diego Corrêa',
     author_email='diegocorrea.cc@gmail.com',
     description='',
-    install_requires=['pandas', 'sklearn', 'numpy', 'graphviz']
+    install_requires=['pandas', 'sklearn', 'numpy', 'graphviz', 'scipy']
 )
