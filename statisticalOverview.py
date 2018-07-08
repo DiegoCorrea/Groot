@@ -17,14 +17,6 @@ def list_normalize(list_to_normalize):
     return playListNormalized
 
 
-def song_user_heard(preference_set):
-    normalized_list = list_normalize(preference_set['play_count'].values())
-    index = 0
-    dict_to_return = {}
-    for line in preference_set:
-        dict_to_return
-
-
 def dictNormalize(dict_to_normalize):
     values = dict_to_normalize.values()
     divisor = max(values)
