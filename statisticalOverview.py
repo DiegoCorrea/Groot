@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from collections import Counter
 from statistics import median, mean
 import numpy as np
@@ -88,38 +89,39 @@ def userSongPreferenceCount(preferenceList):
 
 
 def painelSongs(songSet, preferenceSet, song_play_set_normalized, song_play_set_counted, song_preference_set_normalized, user_preference_set_normalized, dic_preference_with_class):
-    print('------------------------------------------------------')
-    print('+ Total de musicas: ', len(set(songSet["id"].tolist())))
-    #
-    print('+ + Nunca escultadas: ', str(len(set(songSet["id"].tolist())) - len(song_preference_set_normalized)))
-    print('+ + Escultadas pelos usuarios: ', str(len(song_preference_set_normalized)))
+    print('=' * 50)
+    print('=' * 10 + 'Analise estatistica do dataset' + '=' * 10)
+    print('=' * 50)
+    print('+ Total de musicas:              ', len(set(songSet["id"].tolist())))
+    print('+ + Nunca escultadas:            ', str(len(set(songSet["id"].tolist())) - len(song_preference_set_normalized)))
+    print('+ + Escultadas pelos usuarios:   ', str(len(song_preference_set_normalized)))
     print('')
     #
-    print('+ + Total de preferencias: ', str(len(preferenceSet)))
-    print('+ + + Mediana: ', median([float(song_preference_set_normalized[value]) for value in song_preference_set_normalized]))
-    print('+ + + Media: ', mean([float(song_preference_set_normalized[value]) for value in song_preference_set_normalized]))
+    print('+ + As ' + str(len(song_preference_set_normalized)) + ' foram adicionandas como preferencia: ', str(len(preferenceSet)))
+    print('+ + + Mediana de adicionada nas preferencias:  ', median([float(song_preference_set_normalized[value]) for value in song_preference_set_normalized]))
+    print('+ + + Media de adicionada nas preferencias:    ', mean([float(song_preference_set_normalized[value]) for value in song_preference_set_normalized]))
     print('')
     #
     print('+ + Reproduções por usuario - Total de reproduções de uma música individualmente favoritada pelo usuario... tripla(user_id, song_id, play_count)')
-    print('+ + + Mediana inteira: ', int(median([float(value) for value in dic_preference_with_class['play_count']])))
-    print('+ + + Mediana normalizada: ', median([float(value) for value in dic_preference_with_class['global_play_count_normalize']]))
-    print('+ + + Media inteira: ', int(mean([float(value) for value in dic_preference_with_class['play_count']])))
-    print('+ + + Media normalizada: ', mean([float(value) for value in dic_preference_with_class['global_play_count_normalize']]))
-    print('+ + + Maior inteira: ', int(max([float(value) for value in dic_preference_with_class['play_count']])))
-    print('+ + + Maior normalizada: ', max([float(value) for value in dic_preference_with_class['global_play_count_normalize']]))
-    print('+ + + Menor inteira: ', int(min([float(value) for value in dic_preference_with_class['play_count']])))
-    print('+ + + Menor normalizada: ', min([float(value) for value in dic_preference_with_class['global_play_count_normalize']]))
+    print('+ + + Mediana inteira - O usuario ouve uma música:   ', int(median([float(value) for value in dic_preference_with_class['play_count']])))
+    print('+ + + Mediana normalizada:                           ', median([float(value) for value in dic_preference_with_class['global_play_count_normalize']]))
+    print('+ + + Media inteira  - O usuario ouve uma música:    ', int(mean([float(value) for value in dic_preference_with_class['play_count']])))
+    print('+ + + Media normalizada:                             ', mean([float(value) for value in dic_preference_with_class['global_play_count_normalize']]))
+    print('+ + + Maior inteira:                                 ', int(max([float(value) for value in dic_preference_with_class['play_count']])))
+    print('+ + + Maior normalizada:                             ', max([float(value) for value in dic_preference_with_class['global_play_count_normalize']]))
+    print('+ + + Menor inteira:                                 ', int(min([float(value) for value in dic_preference_with_class['play_count']])))
+    print('+ + + Menor normalizada:                             ', min([float(value) for value in dic_preference_with_class['global_play_count_normalize']]))
     print('')
     #
     print('+ + Reproduções por música - Total de vezes que UMA música foi reproduzida')
-    print('+ + + Mediana inteira: ', int(median(song_play_set_counted.values())))
-    print('+ + + Mediana normalizada: ', median(song_play_set_normalized.values()))
-    print('+ + + Media inteira: ', int(mean(song_play_set_counted.values())))
-    print('+ + + Media normalizada: ', mean(song_play_set_normalized.values()))
-    print('+ + + Maior inteira: ', int(max(song_play_set_counted.values())))
-    print('+ + + Maior normalizada: ', max(song_play_set_normalized.values()))
-    print('+ + + Menor inteira: ', int(min(song_play_set_counted.values())))
-    print('+ + + Menor normalizada: ', min(song_play_set_normalized.values()))
+    print('+ + + Mediana inteira:       ', int(median(song_play_set_counted.values())))
+    print('+ + + Mediana normalizada:   ', median(song_play_set_normalized.values()))
+    print('+ + + Media inteira:         ', int(mean(song_play_set_counted.values())))
+    print('+ + + Media normalizada:     ', mean(song_play_set_normalized.values()))
+    print('+ + + Maior inteira:         ', int(max(song_play_set_counted.values())))
+    print('+ + + Maior normalizada:     ', max(song_play_set_normalized.values()))
+    print('+ + + Menor inteira:         ', int(min(song_play_set_counted.values())))
+    print('+ + + Menor normalizada:     ', min(song_play_set_normalized.values()))
     print('')
     #
     print('+ + Relevante são músicas maiores que: ', median([float(value) for value in dic_preference_with_class['global_play_count_normalize']]))
@@ -127,7 +129,6 @@ def painelSongs(songSet, preferenceSet, song_play_set_normalized, song_play_set_
     print('+ + + Not Relevent',
           len(dic_preference_with_class.loc[dic_preference_with_class['relevance_global_play'] == 'not relevant']))
     print('')
-    print('------------------------------------------------------')
     print('+ Total de usuarios: ', len(set(preferenceSet["user_id"].tolist())))
     print('+ + Total de preferencias: ', str(len(preferenceSet)))
     print('+ + + Mediana: ',
