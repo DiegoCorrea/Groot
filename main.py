@@ -13,7 +13,6 @@ def main():
     dict_set = statisticalOverview(SONGSET, PREFERENCESET)
     data_set = make_set_to_process(SONGSET, dict_set)
     clean_data_set = preprocessing_data(data_set)
-
     tree_execute(clean_data_set)
 
 

@@ -68,6 +68,12 @@ def tree_information(classifier):
 
 
 def tree_execute(set_to_process):
+    classifier = plant_the_tree(set_to_process.iloc[:-11])
+    new_data = set_to_process.iloc[-10:]
+    classifier = tree_new_data(classifier, new_data)
+
+
+def plant_the_tree(set_to_process):
     features = list(['title', 'artist', 'album', 'user_id', 'song_id'])
     y = set_to_process["relevance_global_play"]
     x = set_to_process[features]
@@ -82,18 +88,21 @@ def tree_execute(set_to_process):
                                             class_names='relevance_global_play',
                                             filled=True, rounded=True,
                                             special_characters=True)
-    graph = graphviz.Source(dot_data)
-    graph.view()
-    os.system("dot -Tpng Source.gv -o decision-tree.png")
+    #graph = graphviz.Source(dot_data)
+    #graph.view()
+    #os.system("dot -Tpng Source.gv -o decision-tree.png")
+    return classifier
 
 
 def tree_new_data(classifier, new_data):
     print('=' * 50)
     print('=' * 18 + 'Novos itens' + '=' * 18)
     print('=' * 50)
-    new_data_pred = classifier.predict(new_data)
+    features = list(['title', 'artist', 'album', 'user_id', 'song_id'])
+    new_data_pred = classifier.predict(new_data[features])
     print(new_data_pred)
     tree_information(classifier)
+    return classifier
 
 
 
