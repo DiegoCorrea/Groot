@@ -17,4 +17,6 @@ def main():
 
 
 if __name__ == "__main__":
+    if input("Deseja extrair novos dados? (Y/N)") == 'Y':
+        restartSet()
     main()
