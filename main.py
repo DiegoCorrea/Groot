@@ -21,9 +21,12 @@ def main():
             )
         )
     )
-    #clean_data_set = preprocessing_data(groot.get_preference_set())
-    #groot.post_weight(tree_execute(clean_data_set))
-    get_song_distance(groot.get_song_set())
+    groot.post_classifier(
+        tree_execute(
+            preprocessing_data(groot.get_preference_set())
+        )
+    )
+    groot.post_classifier(get_song_distance(groot.get_song_set()))
 
 
 if __name__ == "__main__":
