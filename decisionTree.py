@@ -71,7 +71,7 @@ def tree_execute(set_to_process):
     classifier = plant_the_tree(set_to_process.iloc[:-11])
     new_data = set_to_process.iloc[-10:]
     classifier = tree_new_data(classifier, new_data)
-    return classifier
+    return classifier.feature_importances_
 
 
 def plant_the_tree(set_to_process):
