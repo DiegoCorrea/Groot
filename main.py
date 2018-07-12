@@ -1,6 +1,6 @@
 from data.setHandle import load_data_users, load_data_songs, extractSet
 from statisticalOverview import statisticalOverview
-from decisionTree import make_set_to_process, preprocessing_data, tree_execute
+from decisionTree import make_set_to_process, preprocessing_data, plant_the_tree
 from similarity import get_song_distance
 from radio import Radio
 
@@ -22,11 +22,20 @@ def main():
         )
     )
     groot.post_classifier(
-        tree_execute(
-            preprocessing_data(groot.get_preference_set())
+        plant_the_tree(
+            preprocessing_data(
+                groot.get_preference_set(),
+                groot.get_features()
+            ), groot.get_features()
         )
     )
-    groot.post_classifier(get_song_distance(groot.get_song_set()))
+    groot.post_distance_matrix(
+        get_song_distance(
+            groot.get_song_set(),
+            groot.get_features(),
+            groot.get_classifier().feature_importances_
+        )
+    )
 
 
 if __name__ == "__main__":

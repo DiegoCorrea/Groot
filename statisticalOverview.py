@@ -90,8 +90,8 @@ def painelSongs(songSet, preferenceSet, song_play_set_normalized, song_play_set_
     print('=' * 50)
     print('=' * 10 + 'Analise estatistica do dataset' + '=' * 10)
     print('=' * 50)
-    print('+ Total de musicas:              ', len(set(songSet["id"].tolist())))
-    print('+ + Nunca escultadas:            ', str(len(set(songSet["id"].tolist())) - len(song_preference_set_normalized)))
+    print('+ Total de musicas:              ', len(set(songSet["song_id"].tolist())))
+    print('+ + Nunca escultadas:            ', str(len(set(songSet["song_id"].tolist())) - len(song_preference_set_normalized)))
     print('+ + Escultadas pelos usuarios:   ', str(len(song_preference_set_normalized)))
     print('')
     #

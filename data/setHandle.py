@@ -32,10 +32,10 @@ def saveSongSet(songSet):
         'data/set/songSet.csv',
         'w+'
     )
-    toSaveSong.write('id,title,album,artist,year\n')
+    toSaveSong.write('song_id,title,album,artist,year\n')
     for line in songSet:
         toSaveSong.write(
-            str(line['id'])
+            str(line['song_id'])
             + ','
             + str(line['title'])
             + ','
@@ -70,7 +70,7 @@ def savePreferenceSet(preferenceSet):
 def extractSet(songSizeCut=2000, userSizeCut=10):
     songSet = extract_Data_Songs(songSizeCut)
     saveSongSet(songSet)
-    preferenceSet = extract_Data_Users([song['id'] for song in songSet])
+    preferenceSet = extract_Data_Users([song['song_id'] for song in songSet])
     savePreferenceSet(preferenceSet)
 
 

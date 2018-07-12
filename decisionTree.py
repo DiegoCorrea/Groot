@@ -31,7 +31,7 @@ def make_set_to_process(song_set, dict_set):
     set_to_process['album'] = ''
     set_to_process['artist'] = ''
     for item in set(set_to_process['song_id']):
-        song = song_set.loc[song_set['id'] == item]
+        song = song_set.loc[song_set['song_id'] == item]
         set_to_process.loc[(set_to_process['song_id'].str.contains(item)), 'title'] = str(song['title'].tolist()[0])
         set_to_process.loc[(set_to_process['song_id'].str.contains(item)), 'album'] = str(song['album'].tolist()[0])
         set_to_process.loc[(set_to_process['song_id'].str.contains(item)), 'artist'] = str(song['artist'].tolist()[0])
@@ -62,20 +62,10 @@ def tree_information(classifier):
     print('+ Title:   ' + str(feature_import[0]) + '\n')
     print('+ Artist:  ' + str(feature_import[1]) + '\n')
     print('+ Album:   ' + str(feature_import[2]) + '\n')
-    print('+ User_id: ' + str(feature_import[3]) + '\n')
-    print('+ Song_id: ' + str(feature_import[4]) + '\n')
+    print('+ Song_id: ' + str(feature_import[3]) + '\n')
 
 
-
-def tree_execute(set_to_process):
-    classifier = plant_the_tree(set_to_process.iloc[:-11])
-    new_data = set_to_process.iloc[-10:]
-    classifier = tree_new_data(classifier, new_data)
-    return classifier
-
-
-def plant_the_tree(set_to_process):
-    features = list(['title', 'artist', 'album', 'user_id', 'song_id'])
+def plant_the_tree(set_to_process, features):
     y = set_to_process["relevance_global_play"]
     x = set_to_process[features]
     x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.20)
@@ -89,22 +79,17 @@ def plant_the_tree(set_to_process):
                                             class_names='relevance_global_play',
                                             filled=True, rounded=True,
                                             special_characters=True)
-    #graph = graphviz.Source(dot_data)
-    #graph.view()
-    #os.system("dot -Tpng Source.gv -o decision-tree.png")
+    graph = graphviz.Source(dot_data)
+    graph.view()
+    os.system("dot -Tpng Source.gv -o decision-tree.png")
     return classifier
 
 
-def tree_new_data(classifier, new_data):
+def new_data_predict(classifier, new_data, features):
     print('=' * 50)
-    print('=' * 18 + 'Novos itens' + '=' * 18)
+    print('=' * 18 + 'Predizendo novos itens' + '=' * 18)
     print('=' * 50)
-    features = list(['title', 'artist', 'album', 'user_id', 'song_id'])
-    new_data_pred = classifier.predict(new_data[features])
-    print(new_data_pred)
-    tree_information(classifier)
-    return classifier
-
+    return classifier.predict(new_data[features])
 
 
 def encode_target(df, target_column):
@@ -115,7 +100,7 @@ def encode_target(df, target_column):
     return df_mod, targets
 
 
-def preprocessing_data(data_set):
+def preprocessing_data(data_set, features):
     print('=' * 50)
     print('=' * 7 + 'Pre-Processamento: Enumerando dados' + '=' * 8)
     print('=' * 50)

@@ -3,7 +3,8 @@ class Radio:
         self.song_set = song_set
         self.preference_set = preference_set
         self.classifier = None
-        self.features = None
+        self.features = list(['title', 'artist', 'album', 'song_id'])
+        self.important_feature = 'relevance_global_play'
         self.targets = None
         self.distance_matrix = None
 
@@ -22,8 +23,11 @@ class Radio:
     def get_classifier(self):
         return self.classifier
 
-    def set_distance_matrix(self, new_distance_matrix):
+    def post_distance_matrix(self, new_distance_matrix):
         self.distance_matrix = new_distance_matrix
 
     def get_distance_matrix(self):
         return self.distance_matrix
+
+    def get_features(self):
+        return self.features

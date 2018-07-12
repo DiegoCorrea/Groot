@@ -35,13 +35,13 @@ def CosineSimilarity(song_set, feature):
     return (tfidf * tfidf.T).toarray()
 
 
-def get_song_distance(song_set):
-    features = list(['title', 'artist', 'album', 'id'])
+def get_song_distance(song_set, features, classifier_important):
     pool = multiprocessing.Pool()
     all_feature_distance = pool.map(partial(CosineSimilarity, song_set), features)
     pool.close()
     pool.join()
-    distance_matrix = np.zeros(song_set['id'].count())
-    for matrix in all_feature_distance:
-        distance_matrix = np.add(distance_matrix, matrix)
+    distance_matrix = np.zeros(song_set['song_id'].count())
+    for (matrix, feature_weight) in zip(all_feature_distance, classifier_important):
+        distance_matrix = np.add(distance_matrix, matrix*feature_weight)
+    print(str(len(distance_matrix)))
     return distance_matrix
