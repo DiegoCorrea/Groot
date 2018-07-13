@@ -83,8 +83,8 @@ def plant_the_tree(set_to_process, features):
         rounded=True,
         special_characters=True
     )
-    graph = graphviz.Source(dot_data)
-    graph.view()
+    # graph = graphviz.Source(dot_data)
+    # graph.view()
     os.system("dot -Tpng Source.gv -o decision-tree.png")
     return classifier
 

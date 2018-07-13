@@ -1,5 +1,6 @@
-import numpy as np
 from random import choice
+from graphviz import Graph
+
 
 CHANCE = 10
 
@@ -73,3 +74,17 @@ def environment(groot, song_stages):
         print("Similaridade da lista: " + str(finished['similarity']))
         print("Ordem de pulo: " + str(finished['jump_order']))
         time_to_try += 1
+    paint_the_root(finished['jump_order'])
+
+
+def paint_the_root(jumper_list):
+    dot = Graph('G', filename='process.gv')
+    dot.attr('node', shape='doublecircle')
+    dot.attr('node', shape='circle')
+    node_before = jumper_list[0]
+    for branch in set(jumper_list):
+        dot.node(str(branch), str(branch))
+    for branch in jumper_list[1:]:
+        dot.edge(str(node_before), str(branch))
+        node_before = str(branch)
+    dot.view()

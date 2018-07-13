@@ -5,6 +5,7 @@ from similarity import get_song_distance
 from radio import Radio
 from simulated import environment
 
+
 def restartSet():
     extractSet()
     main()
