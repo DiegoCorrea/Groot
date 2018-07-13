@@ -74,11 +74,15 @@ def plant_the_tree(set_to_process, features):
     y_pred = classifier.predict(x_test)
     tree_evaluate(y_test, y_pred)
     tree_information(classifier)
-    dot_data = export_graphviz(classifier, out_file=None,
-                               feature_names=features,
-                                            class_names='relevance_global_play',
-                                            filled=True, rounded=True,
-                                            special_characters=True)
+    dot_data = export_graphviz(
+        classifier,
+        out_file=None,
+        feature_names=features,
+        class_names='relevance_global_play',
+        filled=True,
+        rounded=True,
+        special_characters=True
+    )
     graph = graphviz.Source(dot_data)
     graph.view()
     os.system("dot -Tpng Source.gv -o decision-tree.png")
