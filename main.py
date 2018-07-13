@@ -3,7 +3,7 @@ from statisticalOverview import statisticalOverview
 from decisionTree import make_set_to_process, preprocessing_data, plant_the_tree
 from similarity import get_song_distance
 from radio import Radio
-
+from simulated import environment
 
 def restartSet():
     extractSet()
@@ -35,6 +35,13 @@ def main():
             groot.get_features(),
             groot.get_classifier().feature_importances_
         )
+    )
+    environment(
+        groot,
+        {
+            'start': 36-2,
+            'end': 65-2
+        }
     )
 
 
