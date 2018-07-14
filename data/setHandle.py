@@ -67,8 +67,8 @@ def savePreferenceSet(preferenceSet):
     toSaveSong.close()
 
 
-def extractSet(songSizeCut=2000, userSizeCut=10):
-    songSet = extract_Data_Songs(songSizeCut)
+def extractSet(set_size=2000):
+    songSet = extract_Data_Songs(set_size)
     saveSongSet(songSet)
     preferenceSet = extract_Data_Users([song['song_id'] for song in songSet])
     savePreferenceSet(preferenceSet)
