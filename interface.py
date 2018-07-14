@@ -1,7 +1,7 @@
 def interface_menu(groot):
     songs_start_and_end = {}
     print('*' * 50)
-    print('*' * 17 + 'Escolha das Músicas' + '*' * 17)
+    print('*' * 16 + 'Escolha das Músicas' + '*' * 15)
     print('*' * 50)
     print('+ Abre o arquivo e escolha duas músicas: data/set/songSet.csv')
     print('-' * 50)

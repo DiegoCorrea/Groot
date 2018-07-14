@@ -6,6 +6,7 @@ from radio import Radio
 from simulated import environment
 from interface import interface_menu
 import os
+import time
 
 
 def menu():
@@ -27,14 +28,28 @@ def experiment_cicles(cicles=10, set_size=2000):
     for i in range(cicles):
         extractSet(set_size=set_size)
         groot = Radio(load_data_songs(), load_data_users())
+        print('+ Carregando Dados')
         groot.post_preference_set(
-            make_set_to_process(
-                groot.get_song_set(),
-                statisticalOverview(
-                    groot.get_song_set(),
-                    groot.get_preference_set(),
+            preference_set=make_set_to_process(
+                song_set=groot.get_song_set(),
+                dict_set=statisticalOverview(
+                    songSet=groot.get_song_set(),
+                    preferenceSet=groot.get_preference_set(),
                     DEBUG=False
                 ),
+                DEBUG=False
+            )
+        )
+        print('+ Treinando a arvore')
+        groot.post_classifier(
+            new_classifier=plant_the_tree(
+                set_to_process=preprocessing_data(
+                    data_set=groot.get_preference_set(),
+                    all_features=groot.get_all_features(),
+                    DEBUG=False
+                ),
+                features=groot.get_song_features(),
+                important_feature=groot.get_important_feature(),
                 DEBUG=False
             )
         )
@@ -42,25 +57,29 @@ def experiment_cicles(cicles=10, set_size=2000):
 
 def user_experiment():
     groot = Radio(load_data_songs(), load_data_users())
+    print('+ Carregando Dados')
     groot.post_preference_set(
-        make_set_to_process(
-            groot.get_song_set(),
-            statisticalOverview(
-                groot.get_song_set(),
-                groot.get_preference_set(),
+        preference_set=make_set_to_process(
+            song_set=groot.get_song_set(),
+            dict_set=statisticalOverview(
+                songSet=groot.get_song_set(),
+                preferenceSet=groot.get_preference_set(),
                 DEBUG=False
             ),
             DEBUG=False
         )
     )
+    print('+ Treinando a arvore')
     groot.post_classifier(
-        plant_the_tree(
-            preprocessing_data(
+        new_classifier=plant_the_tree(
+            set_to_process=preprocessing_data(
                 data_set=groot.get_preference_set(),
-                features=groot.get_all_features(),
+                all_features=groot.get_all_features(),
                 DEBUG=False
             ),
-            groot.get_song_features()
+            features=groot.get_song_features(),
+            important_feature=groot.get_important_feature(),
+            DEBUG=False
         )
     )
     groot.post_distance_matrix(
@@ -70,6 +89,9 @@ def user_experiment():
             groot.get_classifier().feature_importances_
         )
     )
+    print('+ Rádio Groot - Iniciando')
+    time.sleep(3)
+    os.system('clear||cls')
     start_and_end = interface_menu(groot)
     environment(
         groot,
@@ -80,9 +102,9 @@ def user_experiment():
 def admin_experiment():
     groot = Radio(load_data_songs(), load_data_users())
     groot.post_preference_set(
-        make_set_to_process(
-            groot.get_song_set(),
-            statisticalOverview(
+        preference_set=make_set_to_process(
+            song_set=groot.get_song_set(),
+            dict_set=statisticalOverview(
                 songSet=groot.get_song_set(),
                 preferenceSet=groot.get_preference_set(),
                 DEBUG=True
@@ -94,7 +116,7 @@ def admin_experiment():
         new_classifier=plant_the_tree(
             set_to_process=preprocessing_data(
                 data_set=groot.get_preference_set(),
-                features=groot.get_song_features(),
+                all_features=groot.get_all_features(),
                 DEBUG=True
             ),
             features=groot.get_song_features(),

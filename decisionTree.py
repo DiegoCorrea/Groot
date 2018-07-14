@@ -67,7 +67,7 @@ def tree_information(classifier):
 
 
 def plant_the_tree(set_to_process, features, important_feature, DEBUG):
-    y = set_to_process["relevance_global_play"]
+    y = set_to_process[important_feature]
     x = set_to_process[features]
     x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.20)
     classifier = DecisionTreeClassifier()
@@ -80,7 +80,7 @@ def plant_the_tree(set_to_process, features, important_feature, DEBUG):
             classifier,
             out_file=None,
             feature_names=features,
-            class_names='relevance_global_play',
+            class_names=important_feature,
             filled=True,
             rounded=True,
             special_characters=True
@@ -106,54 +106,22 @@ def encode_target(df, target_column):
     return df_mod, targets
 
 
-def preprocessing_data(data_set, features, DEBUG):
+def preprocessing_data(data_set, all_features, DEBUG):
     if DEBUG is True:
         print('=' * 50)
         print('=' * 7 + 'Pre-Processamento: Enumerando dados' + '=' * 8)
         print('=' * 50)
-    clean_data_set, album_targets = encode_target(data_set, "album")
-    print("* head()", clean_data_set[["album"]].head(),
-          sep="\n", end="\n\n")
-    print("* tail()", clean_data_set[["album"]].tail(),
-          sep="\n", end="\n\n")
-    print("* Album", album_targets, sep="\n", end="\n\n")
-    #
-    clean_data_set, artist_targets = encode_target(clean_data_set, "artist")
-    print("* head()", clean_data_set[["artist"]].head(),
-          sep="\n", end="\n\n")
-    print("* tail()", clean_data_set[["artist"]].tail(),
-          sep="\n", end="\n\n")
-    print("* Artists", artist_targets, sep="\n", end="\n\n")
-    #
-    clean_data_set, title_targets = encode_target(clean_data_set, "title")
-    print("* head()", clean_data_set[["title"]].head(),
-          sep="\n", end="\n\n")
-    print("* tail()", clean_data_set[["title"]].tail(),
-          sep="\n", end="\n\n")
-    print("* Title", title_targets, sep="\n", end="\n\n")
-    #
-    clean_data_set, relevance_global_targets = encode_target(clean_data_set, "relevance_global_play")
-    print("* head()", clean_data_set[["relevance_global_play"]].head(),
-          sep="\n", end="\n\n")
-    print("* tail()", clean_data_set[["relevance_global_play"]].tail(),
-          sep="\n", end="\n\n")
-    print("* Global Relevance", relevance_global_targets, sep="\n", end="\n\n")
-    #
-    clean_data_set, user_targets = encode_target(clean_data_set, "user_id")
-    print("* head()", clean_data_set[["user_id"]].head(),
-          sep="\n", end="\n\n")
-    print("* tail()", clean_data_set[["user_id"]].tail(),
-          sep="\n", end="\n\n")
-    print("* User Id", user_targets, sep="\n", end="\n\n")
-    #
-    clean_data_set, song_targets = encode_target(clean_data_set, "song_id")
-    print("* head()", clean_data_set[["song_id"]].head(),
-          sep="\n", end="\n\n")
-    print("* tail()", clean_data_set[["song_id"]].tail(),
-          sep="\n", end="\n\n")
-    print("* Song Id", song_targets, sep="\n", end="\n\n")
+    clean_data_set, album_targets = encode_target(data_set, all_features[0])
+    for feature in all_features[1:]:
+        clean_data_set, target = encode_target(clean_data_set, feature)
+        if DEBUG is True:
+            print_preprocessing_data(clean_data_set, feature, target)
     return clean_data_set
 
 
-def print_preprocessing_data(feature,):
-    pass
+def print_preprocessing_data(clean_data_set, feature, target):
+    print("* head()", clean_data_set[[feature]].head(),
+          sep="\n", end="\n\n")
+    print("* tail()", clean_data_set[[feature]].tail(),
+          sep="\n", end="\n\n")
+    print("* Song Id", target, sep="\n", end="\n\n")

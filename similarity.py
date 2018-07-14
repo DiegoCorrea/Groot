@@ -43,5 +43,4 @@ def get_song_distance(song_set, features, classifier_important):
     distance_matrix = np.zeros(song_set['song_id'].count())
     for (matrix, feature_weight) in zip(all_feature_distance, classifier_important):
         distance_matrix = np.add(distance_matrix, matrix*feature_weight)
-    print(str(len(distance_matrix)))
     return distance_matrix
