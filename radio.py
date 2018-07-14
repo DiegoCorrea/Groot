@@ -3,7 +3,7 @@ class Radio:
         self.song_set = song_set
         self.preference_set = preference_set
         self.classifier = None
-        self.features = list(['title', 'artist', 'album', 'song_id'])
+        self.song_features = list(['title', 'artist', 'album', 'song_id'])
         self.important_feature = 'relevance_global_play'
         self.targets = None
         self.distance_matrix = None
@@ -29,8 +29,13 @@ class Radio:
     def get_distance_matrix(self):
         return self.distance_matrix
 
-    def get_features(self):
-        return self.features
+    def get_song_features(self):
+        return self.song_features
+
+    def get_all_features(self):
+        to_return = self.song_features
+        to_return.append(self.important_feature)
+        return to_return
 
     def get_song(self, song_to_find):
         if song_to_find in self.song_set['song_id'].tolist():
@@ -44,3 +49,6 @@ class Radio:
             return song_ids.index(song_to_find)
         else:
             return ''
+
+    def get_important_feature(self):
+        return self.important_feature
