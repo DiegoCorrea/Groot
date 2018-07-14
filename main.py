@@ -40,7 +40,7 @@ def experiment_cicles(cicles=10, set_size=2000):
                 DEBUG=False
             )
         )
-        print('+ Treinando a arvore')
+        print('+ Treinando a árvore')
         groot.post_classifier(
             new_classifier=plant_the_tree(
                 set_to_process=preprocessing_data(
@@ -51,6 +51,15 @@ def experiment_cicles(cicles=10, set_size=2000):
                 features=groot.get_song_features(),
                 important_feature=groot.get_important_feature(),
                 DEBUG=False
+            )
+        )
+        print('+ Obtendo similaridade entre as músicas')
+        groot.post_distance_matrix(
+            new_distance_matrix=get_song_distance(
+                song_set=groot.get_song_set(),
+                song_features=groot.get_song_features(),
+                classifier_important=groot.get_classifier().feature_importances_,
+                DEBUG=True
             )
         )
 
@@ -82,11 +91,13 @@ def user_experiment():
             DEBUG=False
         )
     )
+    print('+ Obtendo similaridade entre as músicas')
     groot.post_distance_matrix(
-        get_song_distance(
-            groot.get_song_set(),
-            groot.get_song_features(),
-            groot.get_classifier().feature_importances_
+        new_distance_matrix=get_song_distance(
+            song_set=groot.get_song_set(),
+            song_features=groot.get_song_features(),
+            classifier_important=groot.get_classifier().feature_importances_,
+            DEBUG=True
         )
     )
     print('+ Rádio Groot - Iniciando')
@@ -125,10 +136,11 @@ def admin_experiment():
         )
     )
     groot.post_distance_matrix(
-        get_song_distance(
-            groot.get_song_set(),
-            groot.get_song_features(),
-            groot.get_classifier().feature_importances_
+        new_distance_matrix=get_song_distance(
+            song_set=groot.get_song_set(),
+            song_features=groot.get_song_features(),
+            classifier_important=groot.get_classifier().feature_importances_,
+            DEBUG=True
         )
     )
     start_and_end = interface_menu(groot)
