@@ -1,3 +1,6 @@
+import copy
+
+
 class Radio:
     def __init__(self, song_set, preference_set):
         self.song_set = song_set
@@ -33,7 +36,7 @@ class Radio:
         return self.song_features
 
     def get_all_features(self):
-        to_return = self.song_features
+        to_return = copy.copy(self.song_features)
         to_return.append(self.important_feature)
         return to_return
 

@@ -22,7 +22,7 @@ def data_information(pd_dict_set):
     print(pd_dict_set.info())
 
 
-def make_set_to_process(song_set, dict_set):
+def make_set_to_process(song_set, dict_set, DEBUG=True):
     set_to_process = pd.DataFrame()
     set_to_process['user_id'] = dict_set['user_id']
     set_to_process['song_id'] = dict_set['song_id']
@@ -35,7 +35,8 @@ def make_set_to_process(song_set, dict_set):
         set_to_process.loc[(set_to_process['song_id'].str.contains(item)), 'title'] = str(song['title'].tolist()[0])
         set_to_process.loc[(set_to_process['song_id'].str.contains(item)), 'album'] = str(song['album'].tolist()[0])
         set_to_process.loc[(set_to_process['song_id'].str.contains(item)), 'artist'] = str(song['artist'].tolist()[0])
-    data_information(set_to_process)
+    if DEBUG is True:
+        data_information(set_to_process)
     return set_to_process
 
 
@@ -65,27 +66,28 @@ def tree_information(classifier):
     print('+ Song_id: ' + str(feature_import[3]) + '\n')
 
 
-def plant_the_tree(set_to_process, features):
+def plant_the_tree(set_to_process, features, important_feature, DEBUG):
     y = set_to_process["relevance_global_play"]
     x = set_to_process[features]
     x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.20)
     classifier = DecisionTreeClassifier()
     classifier.fit(x_train, y_train)
     y_pred = classifier.predict(x_test)
-    tree_evaluate(y_test, y_pred)
-    tree_information(classifier)
-    dot_data = export_graphviz(
-        classifier,
-        out_file=None,
-        feature_names=features,
-        class_names='relevance_global_play',
-        filled=True,
-        rounded=True,
-        special_characters=True
-    )
-    # graph = graphviz.Source(dot_data)
-    # graph.view()
-    os.system("dot -Tpng Source.gv -o decision-tree.png")
+    if DEBUG is True:
+        tree_evaluate(y_test, y_pred)
+        tree_information(classifier)
+        dot_data = export_graphviz(
+            classifier,
+            out_file=None,
+            feature_names=features,
+            class_names='relevance_global_play',
+            filled=True,
+            rounded=True,
+            special_characters=True
+        )
+        # graph = graphviz.Source(dot_data)
+        # graph.view()
+        # os.system("dot -Tpng Source.gv -o decision-tree.png")
     return classifier
 
 
@@ -104,10 +106,11 @@ def encode_target(df, target_column):
     return df_mod, targets
 
 
-def preprocessing_data(data_set, features):
-    print('=' * 50)
-    print('=' * 7 + 'Pre-Processamento: Enumerando dados' + '=' * 8)
-    print('=' * 50)
+def preprocessing_data(data_set, features, DEBUG):
+    if DEBUG is True:
+        print('=' * 50)
+        print('=' * 7 + 'Pre-Processamento: Enumerando dados' + '=' * 8)
+        print('=' * 50)
     clean_data_set, album_targets = encode_target(data_set, "album")
     print("* head()", clean_data_set[["album"]].head(),
           sep="\n", end="\n\n")
@@ -150,3 +153,7 @@ def preprocessing_data(data_set, features):
           sep="\n", end="\n\n")
     print("* Song Id", song_targets, sep="\n", end="\n\n")
     return clean_data_set
+
+
+def print_preprocessing_data(feature,):
+    pass
