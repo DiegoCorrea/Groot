@@ -135,7 +135,7 @@ def painelSongs(songSet, preferenceSet, song_play_set_normalized, song_play_set_
           mean([float(user_preference_set_normalized[value]) for value in user_preference_set_normalized]))
 
 
-def statisticalOverview(songSet, preferenceSet):
+def statisticalOverview(songSet, preferenceSet, DEBUG=True):
     #
     song_preference_set_counted = songPreferenceCount(preferenceSet)
     song_preference_set_normalized = dictNormalize(song_preference_set_counted)
@@ -151,7 +151,8 @@ def statisticalOverview(songSet, preferenceSet):
     #
     dic_preference_with_class = classify_relevance(preferenceSet)
     #
-    painelSongs(songSet, preferenceSet, song_play_set_normalized, song_play_set_counted, song_preference_set_normalized, user_preference_set_normalized, dic_preference_with_class)
+    if DEBUG is True:
+        painelSongs(songSet, preferenceSet, song_play_set_normalized, song_play_set_counted, song_preference_set_normalized, user_preference_set_normalized, dic_preference_with_class)
     #
     return dic_preference_with_class
 
