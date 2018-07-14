@@ -4,6 +4,7 @@ from decisionTree import make_set_to_process, preprocessing_data, plant_the_tree
 from similarity import get_song_distance
 from radio import Radio
 from simulated import environment
+from interface import interface_menu
 
 
 def restartSet():
@@ -37,12 +38,14 @@ def main():
             groot.get_classifier().feature_importances_
         )
     )
+    #start_and_end = {
+    #    'start': 34,
+    #    'end': 65
+    #}
+    start_and_end = interface_menu(groot)
     environment(
         groot,
-        {
-            'start': 36-2,
-            'end': 65-2
-        }
+        start_and_end
     )
 
 

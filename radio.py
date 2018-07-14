@@ -31,3 +31,16 @@ class Radio:
 
     def get_features(self):
         return self.features
+
+    def get_song(self, song_to_find):
+        if song_to_find in self.song_set['song_id'].tolist():
+            return str(song_to_find)
+        else:
+            return ''
+
+    def get_song_position(self, song_to_find):
+        song_ids = self.song_set['song_id'].tolist()
+        if song_to_find in song_ids:
+            return song_ids.index(song_to_find)
+        else:
+            return ''
