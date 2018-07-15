@@ -5,6 +5,8 @@ from similarity import get_song_distance
 from radio import Radio
 from simulated import environment
 from interface import interface_menu, random_choice
+from graphics import plot_feature_importance
+import pandas as pd
 import os
 import time
 
@@ -24,11 +26,12 @@ def menu():
         return 3
 
 
-def experiment_cicles(cicles=1, set_size=2000):
+def experiment_cicles(cicles=5, set_size=500):
+    weight_df = pd.DataFrame(columns=list(['title', 'artist', 'album', 'song_id']))
     for i in range(cicles):
         print('- * - Iniciando o Ciclo: ', str(i))
         print("+ Extraindo " + str(set_size) + " músicas")
-        extractSet(set_size=set_size)
+        # extractSet(set_size=set_size)
         print('+ Carregando dados no sistema')
         groot = Radio(load_data_songs(), load_data_users())
         print('+ Processando dados')
@@ -62,18 +65,26 @@ def experiment_cicles(cicles=1, set_size=2000):
                 song_set=groot.get_song_set(),
                 song_features=groot.get_song_features(),
                 classifier_important=groot.get_classifier().feature_importances_,
-                DEBUG=True
+                DEBUG=False
             )
         )
-        start_and_end_songs = random_choice(song_set=groot.get_song_set())
         print('+ Iniciando a busca')
-        environment(
-            groot,
-            start_and_end_songs,
-            DEBUG=False
-        )
+        # environment(
+        #     groot=groot,
+        #     song_stages=random_choice(groot=groot),
+        #     DEBUG=False
+        # )
         print('+ Busca Terminada')
-        print('')
+        print('Salvando informações')
+        df2 = pd.DataFrame(
+            [[i for i in list(groot.get_classifier().feature_importances_)]],
+            columns=[i for i in list(groot.get_song_features())],
+        )
+        frames = [weight_df, df2]
+        weight_df = pd.concat(frames)
+        print(weight_df)
+    print(weight_df)
+    plot_feature_importance(weight_df)
 
 
 def user_experiment():

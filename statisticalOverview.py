@@ -33,7 +33,7 @@ def dictNormalize(dict_to_normalize):
 
 
 def normalizeCount(down, top):
-    return "{0:.4f}".format(float(float(top)/float(down)))
+    return float("{0:.4f}".format(float(float(top)/float(down))))
 
 
 
@@ -152,7 +152,15 @@ def statisticalOverview(songSet, preferenceSet, DEBUG=True):
     dic_preference_with_class = classify_relevance(preferenceSet)
     #
     if DEBUG is True:
-        painelSongs(songSet, preferenceSet, song_play_set_normalized, song_play_set_counted, song_preference_set_normalized, user_preference_set_normalized, dic_preference_with_class)
+        painelSongs(
+            songSet,
+            preferenceSet,
+            song_play_set_normalized,
+            song_play_set_counted,
+            song_preference_set_normalized,
+            user_preference_set_normalized,
+            dic_preference_with_class
+        )
     #
     return dic_preference_with_class
 
@@ -160,6 +168,6 @@ def statisticalOverview(songSet, preferenceSet, DEBUG=True):
 def classify_relevance(dict_set):
     set_normalized = list_normalize(dict_set['play_count'].tolist())
     dict_set['global_play_count_normalize'] = pd.Series(set_normalized).values
-    limiar = median(set_normalized)
-    dict_set['relevance_global_play'] = np.where(dict_set['global_play_count_normalize'] > limiar, 'relevant', 'not relevant')
+    lim = float(median(set_normalized))
+    dict_set['relevance_global_play'] = np.where(dict_set['global_play_count_normalize'] > lim, 'relevant', 'not relevant')
     return dict_set
