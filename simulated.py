@@ -71,19 +71,21 @@ def covert(distance_matrix, song_stages):
 
 
 def environment(groot, song_stages, DEBUG=True):
-    finished = covert(groot.get_distance_matrix(), song_stages)
+    response = covert(groot.get_distance_matrix(), song_stages)
     time_to_try = 0
-    similarity = 0
-    while not finished['finished'] and time_to_try <= CHANCE:
+    results = dict()
+    while not response['finished'] and time_to_try <= CHANCE:
         finished = covert(groot.get_distance_matrix(), song_stages)
         time_to_try += 1
-        similarity = finished['similarity']
+        results['similaridade'] = response['similarity']
+        results['final_state'] = response['finished']
+        results['total_visitas'] = len(set(response['jump_order']))
         if DEBUG is True:
-            print("Similaridade da lista: " + str(finished['similarity']))
-            print("Ordem de pulo: " + str(finished['jump_order']))
+            print("Similaridade da lista: " + str(response['similarity']))
+            print("Ordem de pulo: " + str(response['jump_order']))
     if DEBUG is True:
-        paint_the_root(finished['jump_order'])
-    return similarity
+        paint_the_root(response['jump_order'])
+    return results
 
 
 def paint_the_root(jumper_list):

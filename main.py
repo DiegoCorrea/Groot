@@ -5,7 +5,7 @@ from similarity import get_song_distance
 from radio import Radio
 from simulated import environment
 from interface import interface_menu, random_choice
-from graphics import plot_feature_importance, plot_evaluations, plot_similarity
+from graphics import plot_feature_importance, plot_evaluations, plot_similarity, plot_final_state, plot_nodes
 import pandas as pd
 import os
 import time
@@ -29,7 +29,7 @@ def menu():
 def experiment_cicles(cicles=5, set_size=500):
     weight_df = pd.DataFrame(columns=list([]))
     evaluate_df = pd.DataFrame(columns=list([]))
-    similarity_df = pd.DataFrame(columns=list(['similaridade']))
+    similarity_df = pd.DataFrame(columns=list())
     for i in range(cicles):
         print('- * - Iniciando o Ciclo: ', str(i))
         print("+ Extraindo " + str(set_size) + " músicas")
@@ -92,12 +92,14 @@ def experiment_cicles(cicles=5, set_size=500):
         #
         similarity_df = pd.concat([similarity_df,
                   pd.DataFrame(
-                      [[similarity]],
-                      columns=['similaridade'],
+                      [[i for i in similarity.values()]],
+                      columns=[x for x in similarity],
                   )])
     plot_feature_importance(weight_df)
     plot_evaluations(evaluate_df)
-    plot_similarity(similarity_df)
+    plot_similarity(similarity_df['similaridade'].tolist())
+    plot_final_state(similarity_df['final_state'].tolist())
+    plot_nodes(similarity_df['total_visitas'].tolist())
 
 
 def user_experiment():

@@ -53,7 +53,6 @@ def plot_evaluations(df):
 
 
 def plot_similarity(df):
-    print(df)
     directory = str(
         'results/'
     )
@@ -65,12 +64,58 @@ def plot_similarity(df):
     plt.xlabel('Rodada')
     plt.ylabel('Valor')
     plt.plot(
-        [i + 1 for i in range(df['similaridade'].count())],
-        df['similaridade'].tolist()
+        [i + 1 for i in range(len(df))],
+        df
     )
     plt.legend(loc='best')
     plt.savefig(
         str(directory)
         + 'similarity.png'
+    )
+    plt.close()
+
+
+def plot_final_state(df):
+    directory = str(
+        'results/'
+    )
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+    plt.figure()
+    plt.grid(True)
+    plt.title('Rodadas que chegaam ao fim')
+    plt.xlabel('Rodada')
+    plt.ylabel('Valor')
+    plt.plot(
+        [i + 1 for i in range(len(df))],
+        df
+    )
+    plt.legend(loc='best')
+    plt.savefig(
+        str(directory)
+        + 'final_state.png'
+    )
+    plt.close()
+
+
+def plot_nodes(df):
+    directory = str(
+        'results/'
+    )
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+    plt.figure()
+    plt.grid(True)
+    plt.title('Total de Nós visitados')
+    plt.xlabel('Rodada')
+    plt.ylabel('Valor')
+    plt.plot(
+        [i + 1 for i in range(len(df))],
+        df
+    )
+    plt.legend(loc='best')
+    plt.savefig(
+        str(directory)
+        + 'know_nodes.png'
     )
     plt.close()
