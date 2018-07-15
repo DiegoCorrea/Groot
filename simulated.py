@@ -73,8 +73,8 @@ def covert(distance_matrix, song_stages):
 def environment(groot, song_stages, DEBUG=True):
     finished = covert(groot.get_distance_matrix(), song_stages)
     time_to_try = 0
-    similarity = []
-    while not finished['finished'] or time_to_try <= CHANCE:
+    similarity = 0
+    while not finished['finished'] and time_to_try <= CHANCE:
         finished = covert(groot.get_distance_matrix(), song_stages)
         time_to_try += 1
         similarity = finished['similarity']

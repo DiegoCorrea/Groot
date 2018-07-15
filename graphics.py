@@ -53,6 +53,7 @@ def plot_evaluations(df):
 
 
 def plot_similarity(df):
+    print(df)
     directory = str(
         'results/'
     )
@@ -65,8 +66,7 @@ def plot_similarity(df):
     plt.ylabel('Valor')
     plt.plot(
         [i + 1 for i in range(df['similaridade'].count())],
-        df['similaridade'].tolist(),
-        label=str('similaridade')
+        df['similaridade'].tolist()
     )
     plt.legend(loc='best')
     plt.savefig(

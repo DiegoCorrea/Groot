@@ -79,26 +79,22 @@ def experiment_cicles(cicles=5, set_size=500):
         )
         print('+ Busca Terminada')
         print('Salvando informações')
-        df2 = pd.DataFrame(
+        #
+        weight_df = pd.concat([weight_df, pd.DataFrame(
             [[i for i in list(groot.get_classifier().feature_importances_)]],
             columns=[i for i in list(groot.get_song_features())],
-        )
-        frames = [weight_df, df2]
-        weight_df = pd.concat(frames)
+        )])
         #
-        df2 = pd.DataFrame(
+        evaluate_df = pd.concat([evaluate_df, pd.DataFrame(
             [[i for i in evaluate_results.values()]],
             columns=[x for x in evaluate_results],
-        )
-        frames = [evaluate_df, df2]
-        evaluate_df = pd.concat(frames)
+        )])
         #
-        df2 = pd.DataFrame(
-            [[similarity]],
-            columns=['similaridade'],
-        )
-        frames = [evaluate_df, df2]
-        similarity_df = pd.concat(frames)
+        similarity_df = pd.concat([similarity_df,
+                  pd.DataFrame(
+                      [[similarity]],
+                      columns=['similaridade'],
+                  )])
     plot_feature_importance(weight_df)
     plot_evaluations(evaluate_df)
     plot_similarity(similarity_df)
