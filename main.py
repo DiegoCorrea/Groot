@@ -5,7 +5,7 @@ from similarity import get_song_distance
 from radio import Radio
 from simulated import environment
 from interface import interface_menu, random_choice
-from graphics import plot_feature_importance
+from graphics import plot_feature_importance, plot_evaluations
 import pandas as pd
 import os
 import time
@@ -26,8 +26,9 @@ def menu():
         return 3
 
 
-def experiment_cicles(cicles=5, set_size=500):
-    weight_df = pd.DataFrame(columns=list(['title', 'artist', 'album', 'song_id']))
+def experiment_cicles(cicles=10, set_size=500):
+    weight_df = pd.DataFrame(columns=list([]))
+    evaluate_df = pd.DataFrame(columns=list([]))
     for i in range(cicles):
         print('- * - Iniciando o Ciclo: ', str(i))
         print("+ Extraindo " + str(set_size) + " músicas")
@@ -47,8 +48,7 @@ def experiment_cicles(cicles=5, set_size=500):
             )
         )
         print('+ Treinando a árvore')
-        groot.post_classifier(
-            new_classifier=plant_the_tree(
+        classifier, evaluate_results = plant_the_tree(
                 set_to_process=preprocessing_data(
                     data_set=groot.get_preference_set(),
                     all_features=groot.get_all_features(),
@@ -58,6 +58,8 @@ def experiment_cicles(cicles=5, set_size=500):
                 important_feature=groot.get_important_feature(),
                 DEBUG=False
             )
+        groot.post_classifier(
+            new_classifier=classifier
         )
         print('+ Obtendo similaridade entre as músicas')
         groot.post_distance_matrix(
@@ -82,9 +84,15 @@ def experiment_cicles(cicles=5, set_size=500):
         )
         frames = [weight_df, df2]
         weight_df = pd.concat(frames)
-        print(weight_df)
-    print(weight_df)
+        #
+        df2 = pd.DataFrame(
+            [[i for i in evaluate_results.values()]],
+            columns=[x for x in evaluate_results],
+        )
+        frames = [evaluate_df, df2]
+        evaluate_df = pd.concat(frames)
     plot_feature_importance(weight_df)
+    plot_evaluations(evaluate_df)
 
 
 def user_experiment():

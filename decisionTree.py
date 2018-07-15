@@ -4,7 +4,11 @@ import numpy as np
 import pandas as pd
 from sklearn.tree import DecisionTreeClassifier, export_graphviz
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import classification_report, confusion_matrix, mean_absolute_error, mean_squared_error
+from sklearn.metrics import (classification_report,
+                             confusion_matrix,
+                             mean_absolute_error,
+                             mean_squared_error,
+                             precision_recall_fscore_support)
 import graphviz
 
 
@@ -40,7 +44,7 @@ def make_set_to_process(song_set, dict_set, DEBUG=True):
     return set_to_process
 
 
-def tree_evaluate(y_test, y_pred):
+def print_tree_evaluate(y_test, y_pred):
     print('='*50)
     print('='*21 + 'Métricas' + '='*21)
     print('='*50)
@@ -73,22 +77,29 @@ def plant_the_tree(set_to_process, features, important_feature, DEBUG):
     classifier = DecisionTreeClassifier()
     classifier.fit(x_train, y_train)
     y_pred = classifier.predict(x_test)
+    evaluate_values = dict()
+    evaluate_values['RMSE'] = np.sqrt(mean_squared_error(y_test, y_pred))
+    precision, recall, fscore, support = precision_recall_fscore_support(y_test, y_pred)
+    evaluate_values['Precision NR'] = precision[0]
+    evaluate_values['Precision R'] = precision[1]
+    evaluate_values['Recall NR'] = recall[0]
+    evaluate_values['Recall R'] = recall[1]
     if DEBUG is True:
-        tree_evaluate(y_test, y_pred)
-        tree_information(classifier)
-        dot_data = export_graphviz(
-            classifier,
-            out_file=None,
-            feature_names=features,
-            class_names=important_feature,
-            filled=True,
-            rounded=True,
-            special_characters=True
-        )
-        # graph = graphviz.Source(dot_data)
-        # graph.view()
-        # os.system("dot -Tpng Source.gv -o decision-tree.png")
-    return classifier
+            print_tree_evaluate(y_test, y_pred)
+            tree_information(classifier)
+            dot_data = export_graphviz(
+                classifier,
+                out_file=None,
+                feature_names=features,
+                class_names=important_feature,
+                filled=True,
+                rounded=True,
+                special_characters=True
+            )
+            graph = graphviz.Source(dot_data)
+            graph.view()
+            os.system("dot -Tpng Source.gv -o decision-tree.png")
+    return classifier, evaluate_values
 
 
 def new_data_predict(classifier, new_data, features):
