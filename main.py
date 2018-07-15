@@ -24,8 +24,9 @@ def menu():
         return 3
 
 
-def experiment_cicles(cicles=10, set_size=2000):
+def experiment_cicles(cicles=1, set_size=2000):
     for i in range(cicles):
+        print('- * - Iniciando o Ciclo: ', str(i))
         extractSet(set_size=set_size)
         groot = Radio(load_data_songs(), load_data_users())
         print('+ Carregando Dados')
@@ -63,10 +64,14 @@ def experiment_cicles(cicles=10, set_size=2000):
             )
         )
         start_and_end_songs = random_choice(song_set=groot.get_song_set())
+        print('+ Iniciando a busca')
         environment(
             groot,
-            start_and_end_songs
+            start_and_end_songs,
+            DEBUG=False
         )
+        print('+ Busca Terminada')
+        print('')
 
 
 def user_experiment():

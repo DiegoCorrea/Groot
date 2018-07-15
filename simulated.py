@@ -66,14 +66,15 @@ def covert(distance_matrix, song_stages):
             }
 
 
-def environment(groot, song_stages):
+def environment(groot, song_stages, DEBUG=True):
     finished = covert(groot.get_distance_matrix(), song_stages)
     time_to_try = 0
     while not finished['finished'] or time_to_try == 10:
         finished = covert(groot.get_distance_matrix(), song_stages)
-        print("Similaridade da lista: " + str(finished['similarity']))
-        print("Ordem de pulo: " + str(finished['jump_order']))
         time_to_try += 1
+        if DEBUG is True:
+            print("Similaridade da lista: " + str(finished['similarity']))
+            print("Ordem de pulo: " + str(finished['jump_order']))
     paint_the_root(finished['jump_order'])
 
 
