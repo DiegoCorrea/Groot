@@ -57,7 +57,8 @@ def experiment_cicles(cicles=5, set_size=500):
                 ),
                 features=groot.get_song_features(),
                 important_feature=groot.get_important_feature(),
-                DEBUG=False
+                DEBUG=False,
+                ADMIN=False
             )
         groot.post_classifier(
             new_classifier=classifier
@@ -116,18 +117,20 @@ def user_experiment():
             DEBUG=False
         )
     )
-    print('+ Treinando a arvore')
-    groot.post_classifier(
-        new_classifier=plant_the_tree(
-            set_to_process=preprocessing_data(
-                data_set=groot.get_preference_set(),
-                all_features=groot.get_all_features(),
-                DEBUG=False
-            ),
-            features=groot.get_song_features(),
-            important_feature=groot.get_important_feature(),
+    print('+ Treinando a árvore')
+    classifier, evaluate_results = plant_the_tree(
+        set_to_process=preprocessing_data(
+            data_set=groot.get_preference_set(),
+            all_features=groot.get_all_features(),
             DEBUG=False
-        )
+        ),
+        features=groot.get_song_features(),
+        important_feature=groot.get_important_feature(),
+        DEBUG=True,
+        ADMIN=False
+    )
+    groot.post_classifier(
+        new_classifier=classifier
     )
     print('+ Obtendo similaridade entre as músicas')
     groot.post_distance_matrix(
@@ -170,7 +173,8 @@ def admin_experiment():
         ),
         features=groot.get_song_features(),
         important_feature=groot.get_important_feature(),
-        DEBUG=True
+        DEBUG=True,
+        ADMIN=True
     )
     groot.post_classifier(
         new_classifier=classifier

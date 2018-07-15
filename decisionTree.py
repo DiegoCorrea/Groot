@@ -70,7 +70,7 @@ def tree_information(classifier):
     print('+ Song_id: ' + str(feature_import[3]) + '\n')
 
 
-def plant_the_tree(set_to_process, features, important_feature, DEBUG):
+def plant_the_tree(set_to_process, features, important_feature, DEBUG, ADMIN):
     y = set_to_process[important_feature]
     x = set_to_process[features]
     x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.20)
@@ -84,9 +84,22 @@ def plant_the_tree(set_to_process, features, important_feature, DEBUG):
     evaluate_values['Precision R'] = precision[1]
     evaluate_values['Recall NR'] = recall[0]
     evaluate_values['Recall R'] = recall[1]
-    if DEBUG is True:
+    if DEBUG is True and ADMIN is True:
             print_tree_evaluate(y_test, y_pred)
             tree_information(classifier)
+            dot_data = export_graphviz(
+                classifier,
+                out_file=None,
+                feature_names=features,
+                class_names=important_feature,
+                filled=True,
+                rounded=True,
+                special_characters=True
+            )
+            graph = graphviz.Source(dot_data)
+            graph.view()
+            os.system("dot -Tpng Source.gv -o decision-tree.png")
+    elif DEBUG is True and ADMIN is False:
             dot_data = export_graphviz(
                 classifier,
                 out_file=None,

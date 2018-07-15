@@ -6,7 +6,7 @@ def interface_menu(groot):
     print('*' * 50)
     print('*' * 16 + 'Escolha das Músicas' + '*' * 15)
     print('*' * 50)
-    print('+ Abre o arquivo e escolha duas músicas: data/set/songSet.csv')
+    print('+ Abra o arquivo e escolha duas músicas: data/set/songSet.csv')
     print('-' * 50)
     songs_start_and_end['start'] = groot.get_song_position(str(input('+ Digite a song_id da música de inicio: ')))
     while songs_start_and_end['start'] == '':
