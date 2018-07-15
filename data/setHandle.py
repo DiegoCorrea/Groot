@@ -3,7 +3,7 @@ import pandas as pd
 from random import sample
 
 
-def extract_Data_Songs(sizeCut=1000):
+def extract_Data_Songs(sizeCut):
     songTable = csv.DictReader(
         open(
             'data/oneMillionSongs/songs.csv',
@@ -35,7 +35,7 @@ def saveSongSet(songSet):
     toSaveSong.write('song_id,title,album,artist,year\n')
     for line in songSet:
         toSaveSong.write(
-            str(line['song_id'])
+            str(line['id'])
             + ','
             + str(line['title'])
             + ','
@@ -67,10 +67,10 @@ def savePreferenceSet(preferenceSet):
     toSaveSong.close()
 
 
-def extractSet(set_size=2000):
+def extractSet(set_size):
     songSet = extract_Data_Songs(set_size)
+    preferenceSet = extract_Data_Users([song['id'] for song in songSet])
     saveSongSet(songSet)
-    preferenceSet = extract_Data_Users([song['song_id'] for song in songSet])
     savePreferenceSet(preferenceSet)
 
 
