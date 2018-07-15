@@ -50,3 +50,27 @@ def plot_evaluations(df):
         + 'evaluations.png'
     )
     plt.close()
+
+
+def plot_similarity(df):
+    directory = str(
+        'results/'
+    )
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+    plt.figure()
+    plt.grid(True)
+    plt.title('Similaridade do percurso')
+    plt.xlabel('Rodada')
+    plt.ylabel('Valor')
+    plt.plot(
+        [i + 1 for i in range(df['similaridade'].count())],
+        df['similaridade'].tolist(),
+        label=str('similaridade')
+    )
+    plt.legend(loc='best')
+    plt.savefig(
+        str(directory)
+        + 'similarity.png'
+    )
+    plt.close()

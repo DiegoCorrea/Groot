@@ -5,7 +5,7 @@ from similarity import get_song_distance
 from radio import Radio
 from simulated import environment
 from interface import interface_menu, random_choice
-from graphics import plot_feature_importance, plot_evaluations
+from graphics import plot_feature_importance, plot_evaluations, plot_similarity
 import pandas as pd
 import os
 import time
@@ -26,9 +26,10 @@ def menu():
         return 3
 
 
-def experiment_cicles(cicles=10, set_size=500):
+def experiment_cicles(cicles=5, set_size=500):
     weight_df = pd.DataFrame(columns=list([]))
     evaluate_df = pd.DataFrame(columns=list([]))
+    similarity_df = pd.DataFrame(columns=list(['similaridade']))
     for i in range(cicles):
         print('- * - Iniciando o Ciclo: ', str(i))
         print("+ Extraindo " + str(set_size) + " músicas")
@@ -66,16 +67,16 @@ def experiment_cicles(cicles=10, set_size=500):
             new_distance_matrix=get_song_distance(
                 song_set=groot.get_song_set(),
                 song_features=groot.get_song_features(),
-                classifier_important=groot.get_classifier().feature_importances_,
+                classifier_important=groot.get_feature_weight(),
                 DEBUG=False
             )
         )
         print('+ Iniciando a busca')
-        # environment(
-        #     groot=groot,
-        #     song_stages=random_choice(groot=groot),
-        #     DEBUG=False
-        # )
+        similarity = environment(
+            groot=groot,
+            song_stages=random_choice(groot=groot),
+            DEBUG=False
+        )
         print('+ Busca Terminada')
         print('Salvando informações')
         df2 = pd.DataFrame(
@@ -91,8 +92,16 @@ def experiment_cicles(cicles=10, set_size=500):
         )
         frames = [evaluate_df, df2]
         evaluate_df = pd.concat(frames)
+        #
+        df2 = pd.DataFrame(
+            [[similarity]],
+            columns=['similaridade'],
+        )
+        frames = [evaluate_df, df2]
+        similarity_df = pd.concat(frames)
     plot_feature_importance(weight_df)
     plot_evaluations(evaluate_df)
+    plot_similarity(similarity_df)
 
 
 def user_experiment():
@@ -127,7 +136,7 @@ def user_experiment():
         new_distance_matrix=get_song_distance(
             song_set=groot.get_song_set(),
             song_features=groot.get_song_features(),
-            classifier_important=groot.get_classifier().feature_importances_,
+            classifier_important=groot.get_feature_weight(),
             DEBUG=True
         )
     )
@@ -154,31 +163,36 @@ def admin_experiment():
             DEBUG=True
         )
     )
-    groot.post_classifier(
-        new_classifier=plant_the_tree(
-            set_to_process=preprocessing_data(
-                data_set=groot.get_preference_set(),
-                all_features=groot.get_all_features(),
-                DEBUG=True
-            ),
-            features=groot.get_song_features(),
-            important_feature=groot.get_important_feature(),
+    print('+ Treinando a árvore')
+    classifier, evaluate_results = plant_the_tree(
+        set_to_process=preprocessing_data(
+            data_set=groot.get_preference_set(),
+            all_features=groot.get_all_features(),
             DEBUG=True
-        )
+        ),
+        features=groot.get_song_features(),
+        important_feature=groot.get_important_feature(),
+        DEBUG=True
     )
+    groot.post_classifier(
+        new_classifier=classifier
+    )
+    print('+ Obtendo similaridade entre as músicas')
     groot.post_distance_matrix(
         new_distance_matrix=get_song_distance(
             song_set=groot.get_song_set(),
             song_features=groot.get_song_features(),
-            classifier_important=groot.get_classifier().feature_importances_,
+            classifier_important=groot.get_feature_weight(),
             DEBUG=True
         )
     )
-    start_and_end = interface_menu(groot)
-    environment(
+    print('+ Iniciando a busca')
+    similarity = environment(
         groot=groot,
-        song_stages=start_and_end
+        song_stages=random_choice(groot=groot),
+        DEBUG=True
     )
+    print('+ Busca Terminada')
 
 
 if __name__ == "__main__":

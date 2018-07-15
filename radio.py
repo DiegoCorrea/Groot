@@ -55,3 +55,6 @@ class Radio:
 
     def get_important_feature(self):
         return self.important_feature
+
+    def get_feature_weight(self):
+        return self.classifier.feature_importances_
