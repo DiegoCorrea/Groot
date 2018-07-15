@@ -4,7 +4,7 @@ from decisionTree import make_set_to_process, preprocessing_data, plant_the_tree
 from similarity import get_song_distance
 from radio import Radio
 from simulated import environment
-from interface import interface_menu
+from interface import interface_menu, random_choice
 import os
 import time
 
@@ -62,6 +62,11 @@ def experiment_cicles(cicles=10, set_size=2000):
                 DEBUG=True
             )
         )
+        start_and_end_songs = random_choice(song_set=groot.get_song_set())
+        environment(
+            groot,
+            start_and_end_songs
+        )
 
 
 def user_experiment():
@@ -105,8 +110,8 @@ def user_experiment():
     os.system('clear||cls')
     start_and_end = interface_menu(groot)
     environment(
-        groot,
-        start_and_end
+        groot=groot,
+        song_stages=start_and_end
     )
 
 
@@ -145,8 +150,8 @@ def admin_experiment():
     )
     start_and_end = interface_menu(groot)
     environment(
-        groot,
-        start_and_end
+        groot=groot,
+        song_stages=start_and_end
     )
 
 

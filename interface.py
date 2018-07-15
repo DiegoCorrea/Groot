@@ -1,3 +1,6 @@
+from random import choice
+
+
 def interface_menu(groot):
     songs_start_and_end = {}
     print('*' * 50)
@@ -14,3 +17,14 @@ def interface_menu(groot):
         print('+ + Música não encontrada!')
         songs_start_and_end['end'] = groot.get_song_position(str(input('+ Digite a song_id da música de termino: ')))
     return songs_start_and_end
+
+
+def random_choice(song_set):
+    start_song = choice(song_set)
+    end_song = choice(song_set)
+    while end_song == start_song:
+        end_song = choice(song_set)
+    return {
+        'start': start_song,
+        'end': end_song
+    }
