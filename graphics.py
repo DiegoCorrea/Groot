@@ -4,7 +4,7 @@ import os
 
 def plot_feature_importance(df):
     directory = str(
-        'results/'
+        'graphs/'
     )
     if not os.path.exists(directory):
         os.makedirs(directory)
@@ -29,7 +29,7 @@ def plot_feature_importance(df):
 
 def plot_evaluations(df):
     directory = str(
-        'results/'
+        'graphs/'
     )
     if not os.path.exists(directory):
         os.makedirs(directory)
@@ -54,7 +54,7 @@ def plot_evaluations(df):
 
 def plot_similarity(df):
     directory = str(
-        'results/'
+        'graphs/'
     )
     if not os.path.exists(directory):
         os.makedirs(directory)
@@ -65,7 +65,7 @@ def plot_similarity(df):
     plt.ylabel('Valor')
     plt.plot(
         [i + 1 for i in range(len(df))],
-        df
+        [float(i) for i in df]
     )
     plt.legend(loc='best')
     plt.savefig(
@@ -77,7 +77,7 @@ def plot_similarity(df):
 
 def plot_final_state(df):
     directory = str(
-        'results/'
+        'graphs/'
     )
     if not os.path.exists(directory):
         os.makedirs(directory)
@@ -100,7 +100,7 @@ def plot_final_state(df):
 
 def plot_nodes(df):
     directory = str(
-        'results/'
+        'graphs/'
     )
     if not os.path.exists(directory):
         os.makedirs(directory)

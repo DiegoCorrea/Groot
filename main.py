@@ -32,8 +32,9 @@ def experiment_cicles(cicles=5, set_size=500):
     similarity_df = pd.DataFrame(columns=list())
     for i in range(cicles):
         print('- * - Iniciando o Ciclo: ', str(i))
-        print("+ Extraindo " + str(set_size) + " músicas")
-        extractSet(set_size=set_size)
+        if set_size > 0:
+            print("+ Extraindo " + str(set_size) + " músicas")
+            extractSet(set_size=set_size)
         print('+ Carregando dados no sistema')
         groot = Radio(load_data_songs(), load_data_users())
         print('+ Processando dados')
@@ -103,7 +104,11 @@ def experiment_cicles(cicles=5, set_size=500):
     plot_nodes(similarity_df['total_visitas'].tolist())
 
 
-def user_experiment():
+def user_experiment(set_size=2000):
+    if set_size > 0:
+        print("+ Extraindo " + str(set_size) + " músicas")
+        extractSet(set_size=set_size)
+    print('+ Carregando dados no sistema')
     groot = Radio(load_data_songs(), load_data_users())
     print('+ Carregando Dados')
     groot.post_preference_set(
@@ -138,7 +143,7 @@ def user_experiment():
             song_set=groot.get_song_set(),
             song_features=groot.get_song_features(),
             classifier_important=groot.get_feature_weight(),
-            DEBUG=True
+            DEBUG=False
         )
     )
     print('+ Rádio Groot - Iniciando')
@@ -152,8 +157,9 @@ def user_experiment():
 
 
 def admin_experiment(set_size=2000):
-    print("+ Extraindo " + str(set_size) + " músicas")
-    extractSet(set_size=set_size)
+    if set_size > 0:
+        print("+ Extraindo " + str(set_size) + " músicas")
+        extractSet(set_size=set_size)
     print('+ Carregando dados no sistema')
     groot = Radio(load_data_songs(), load_data_users())
     print('+ Processando dados')
@@ -204,11 +210,15 @@ def admin_experiment(set_size=2000):
 if __name__ == "__main__":
     experiment_choice = menu()
     if int(experiment_choice) == 1:
-        admin_experiment()
+        admin_experiment(
+            set_size=int(input('Quantas músicas deseja extrair? (0 usaremos o set anterior): '))
+        )
     elif int(experiment_choice) == 2:
         experiment_cicles(
             cicles=int(input('Quantos ciclos deseja testar a aplicação? ')),
-            set_size=int(input('Quantas músicas deseja extrair? '))
+            set_size=int(input('Quantas músicas deseja extrair? (0 não extrairemos músicas novas): '))
         )
     else:
-        user_experiment()
+        user_experiment(
+            set_size=int(input('Quantas músicas deseja extrair? (0 usaremos o set anterior): '))
+        )

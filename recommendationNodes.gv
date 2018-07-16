@@ -1,5 +1,5 @@
 graph G {
 	node [shape=doublecircle]
 	node [shape=circle]
-	1666 [label=1666]
+	1340 [label=1340]
 }

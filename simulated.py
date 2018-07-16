@@ -23,7 +23,7 @@ def covert(distance_matrix, song_stages):
     jumper["actual_branch"] = song_stages['start']
     jumper['previous_branch'] = None
     jump_order = [song_stages['start']]
-    similarity_list = [song_stages['start']]
+    similarity_list = [1]
     while len(jump_order) - len(set(jump_order)) <= CHANCE:
         #print(str(len(jump_order) - len(set(jump_order))))
         next_branch_to_jump = None
@@ -75,7 +75,7 @@ def environment(groot, song_stages, DEBUG=True):
     time_to_try = 0
     results = dict()
     while not response['finished'] and time_to_try <= CHANCE:
-        finished = covert(groot.get_distance_matrix(), song_stages)
+        response = covert(groot.get_distance_matrix(), song_stages)
         time_to_try += 1
         results['similaridade'] = response['similarity']
         results['final_state'] = response['finished']
