@@ -202,6 +202,9 @@ if __name__ == "__main__":
     if int(experiment_choice) == 1:
         admin_experiment()
     elif int(experiment_choice) == 2:
-        experiment_cicles()
+        experiment_cicles(
+            cicles=int(input('Quantos ciclos deseja testar a aplicação? ')),
+            set_size=int(input('Quantas músicas deseja extrair? '))
+        )
     else:
         user_experiment()
