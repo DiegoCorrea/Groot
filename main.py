@@ -33,7 +33,7 @@ def experiment_cicles(cicles=5, set_size=500):
     for i in range(cicles):
         print('- * - Iniciando o Ciclo: ', str(i))
         print("+ Extraindo " + str(set_size) + " músicas")
-        # extractSet(set_size=set_size)
+        extractSet(set_size=set_size)
         print('+ Carregando dados no sistema')
         groot = Radio(load_data_songs(), load_data_users())
         print('+ Processando dados')
@@ -151,8 +151,12 @@ def user_experiment():
     )
 
 
-def admin_experiment():
+def admin_experiment(set_size=2000):
+    print("+ Extraindo " + str(set_size) + " músicas")
+    extractSet(set_size=set_size)
+    print('+ Carregando dados no sistema')
     groot = Radio(load_data_songs(), load_data_users())
+    print('+ Processando dados')
     groot.post_preference_set(
         preference_set=make_set_to_process(
             song_set=groot.get_song_set(),
