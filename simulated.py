@@ -23,7 +23,7 @@ def covert(distance_matrix, song_stages):
     jumper["actual_branch"] = song_stages['start']
     jumper['previous_branch'] = None
     jump_order = [song_stages['start']]
-    similarity_list = []
+    similarity_list = [song_stages['start']]
     while len(jump_order) - len(set(jump_order)) <= CHANCE:
         #print(str(len(jump_order) - len(set(jump_order))))
         next_branch_to_jump = None
