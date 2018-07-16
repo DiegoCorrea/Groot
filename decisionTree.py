@@ -74,7 +74,7 @@ def plant_the_tree(set_to_process, features, important_feature, DEBUG, ADMIN):
     y = set_to_process[important_feature]
     x = set_to_process[features]
     x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.20)
-    classifier = DecisionTreeClassifier(criterion="entropy")
+    classifier = DecisionTreeClassifier(criterion="gini")
     classifier.fit(x_train, y_train)
     y_pred = classifier.predict(x_test)
     evaluate_values = dict()
