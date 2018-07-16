@@ -96,9 +96,12 @@ def plant_the_tree(set_to_process, features, important_feature, DEBUG, ADMIN):
                 rounded=True,
                 special_characters=True
             )
-            graph = graphviz.Source(dot_data)
+            graph = graphviz.Source(
+                dot_data,
+                filename='decision-tree.gv'
+            )
             graph.view()
-            os.system("dot -Tpng Source.gv -o decision-tree.png")
+            os.system("dot -Tpng decision-tree.gv -o decision-tree.png")
     elif DEBUG is True and ADMIN is False:
             dot_data = export_graphviz(
                 classifier,
@@ -109,9 +112,12 @@ def plant_the_tree(set_to_process, features, important_feature, DEBUG, ADMIN):
                 rounded=True,
                 special_characters=True
             )
-            graph = graphviz.Source(dot_data)
+            graph = graphviz.Source(
+                dot_data,
+                filename='decision-tree.gv'
+            )
             graph.view()
-            os.system("dot -Tpng Source.gv -o decision-tree.png")
+            os.system("dot -Tpng decision-tree.gv -o decision-tree.png")
     return classifier, evaluate_values
 
 

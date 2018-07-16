@@ -89,7 +89,7 @@ def environment(groot, song_stages, DEBUG=True):
 
 
 def paint_the_root(jumper_list):
-    dot = Graph('G', filename='process.gv')
+    dot = Graph('G', filename='recommendationNodes.gv')
     dot.attr('node', shape='doublecircle')
     dot.attr('node', shape='circle')
     node_before = jumper_list[0]
