@@ -25,7 +25,7 @@ def LemNormalize(text):
 
 
 def CosineSimilarity(song_set, feature):
-    textlist = song_set[feature].tolist()
+    textlist = [str(i) for i in song_set[feature].tolist()]
     TfidfVec = TfidfVectorizer(
         tokenizer=LemNormalize,
         stop_words={'english'},
