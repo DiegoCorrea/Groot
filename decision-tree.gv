@@ -1,0 +1,17 @@
+digraph Tree {
+node [shape=box, style="filled, rounded", color="black", fontname=helvetica] ;
+edge [fontname=helvetica] ;
+0 [label=<song_id &le; 0.5<br/>gini = 0.5<br/>samples = 420<br/>value = [216, 204]<br/>class = r>, fillcolor="#e581390e"] ;
+1 [label=<gini = 0.488<br/>samples = 166<br/>value = [96, 70]<br/>class = r>, fillcolor="#e5813945"] ;
+0 -> 1 [labeldistance=2.5, labelangle=45, headlabel="True"] ;
+2 [label=<song_id &le; 1.5<br/>gini = 0.498<br/>samples = 254<br/>value = [120, 134]<br/>class = e>, fillcolor="#399de51b"] ;
+0 -> 2 [labeldistance=2.5, labelangle=-45, headlabel="False"] ;
+3 [label=<gini = 0.5<br/>samples = 92<br/>value = [47, 45]<br/>class = r>, fillcolor="#e581390b"] ;
+2 -> 3 ;
+4 [label=<album &le; 2.5<br/>gini = 0.495<br/>samples = 162<br/>value = [73, 89]<br/>class = e>, fillcolor="#399de52e"] ;
+2 -> 4 ;
+5 [label=<gini = 0.494<br/>samples = 103<br/>value = [46, 57]<br/>class = e>, fillcolor="#399de531"] ;
+4 -> 5 ;
+6 [label=<gini = 0.496<br/>samples = 59<br/>value = [27, 32]<br/>class = e>, fillcolor="#399de528"] ;
+4 -> 6 ;
+}
